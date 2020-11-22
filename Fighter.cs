@@ -23,7 +23,7 @@ namespace Day5or6_The_GAME
 
         public void GetInfo()
         {
-            Console.WriteLine($"Имя: {Name} Здоровье: {Health} Атака: {Attack} Сила: {Strength}");
+            Console.WriteLine($"Имя: {Name}\t Здоровье: {Health}\t Атака: {Attack}\t Сила: {Strength}");
         }
     }
 }
