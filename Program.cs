@@ -8,7 +8,7 @@ namespace Day5or6_The_GAME
     {
         static void Main(string[] args)
         {
-            string[] names = new string[10];
+            List <string> names = new List<string> ();
 
             string path = @"C:\Users\milto\source\repos\Day5or6_The_GAME\Names.txt";
             using (StreamReader sr = new StreamReader(path, System.Text.Encoding.Default))
@@ -17,19 +17,32 @@ namespace Day5or6_The_GAME
                 int index = 0;
                 while ((line = sr.ReadLine()) != null)
                 {
-                    names[index] = line;
-                    Console.WriteLine(names[index]);
+                    names.Add(line);
+                    //Console.WriteLine(names[index]);
                     index++;
                 }
             }
-            List<Fighter> fighters = new List<Fighter>();
 
+            List<Fighter> fighters = new List<Fighter>();
             foreach (string nameFighter in names)
             {
-                //nyashok.FoodsInFridge.Add(new Food() { Name = "Fish", Weight = 200, Price = 50 });
                 fighters.Add(new Fighter(nameFighter));
             }
-            fighters[0].GetInfo;
+            for (int i = 0; i < names.Count; i++)
+            {
+                //fighters[i].GetInfo();
+            }
+
+            Squad HighElves = new Squad();
+            HighElves.SquadFighters = new List<Fighter>();
+            Random rand = new Random();
+            for (int i = 0; i < 10; i++)
+            {
+                int index = rand.Next(names.Count);
+                HighElves.SquadFighters.Add(new Fighter(names[index]));
+                Console.WriteLine(HighElves.SquadFighters[i].Name);
+            }
+
 
         }
     }
