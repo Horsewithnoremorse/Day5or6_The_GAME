@@ -8,7 +8,11 @@ namespace Day5or6_The_GAME
     {
         public string FractionName { get; set; }
         public List<Squad> FractionSquads { get; set; }
-
+        public void AddSquad()
+        {
+            FractionSquads = new List<Squad>();
+            FractionSquads.Add(new Squad());
+        }
         public void GetInfo()
         {
             Console.WriteLine($"\nФракция: {FractionName}");
