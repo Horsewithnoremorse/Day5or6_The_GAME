@@ -22,7 +22,7 @@ namespace Day5or6_The_GAME
         public void GetInfo()
         {
             Console.WriteLine($"В отряд {SquadName} входят:");
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < SquadFighters.Count; i++)
             {
                 SquadFighters[i].GetInfo();
             }

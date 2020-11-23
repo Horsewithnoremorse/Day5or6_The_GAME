@@ -19,7 +19,7 @@ namespace Day5or6_The_GAME
             for (int i = 0; i < FractionSquads.Count; i++)
             {
                 Console.WriteLine($"\nОтряд {FractionSquads[i].SquadName}: ");
-                for (int j = 0; j < 10; j++)
+                for (int j = 0; j < FractionSquads[i].SquadFighters.Count; j++)
                 {
                     FractionSquads[i].SquadFighters[j].GetInfo();
                 }

@@ -17,7 +17,7 @@ namespace Day5or6_The_GAME
             battle.names = names;
             battle.JustDoSomething();
 
-
         }
+
     }
 }

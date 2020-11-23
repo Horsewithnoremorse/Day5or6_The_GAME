@@ -4,31 +4,15 @@ using System.Text;
 
 namespace Day5or6_The_GAME
 {
-     public class Battle
-     {
-        public List <string> names;
+    public class Battle
+    {
+        public List<string> names;
         public void JustDoSomething()
         {
-            Squad HighElves = new Squad() { SquadName = "HighElves" };
-            HighElves.SquadFighters = new List<Fighter>();
-            HighElves.FighterNames = names;
-            HighElves.AddFighters();
-
-
-            Squad WoodElves = new Squad() { SquadName = "WoodElf" };
-            WoodElves.SquadFighters = new List<Fighter>();
-            WoodElves.FighterNames = names;
-            WoodElves.AddFighters();
-
-            Squad MountainOrks = new Squad() { SquadName = "MountainOrks" };
-            MountainOrks.SquadFighters = new List<Fighter>();
-            MountainOrks.FighterNames = names;
-            MountainOrks.AddFighters();
-
-            Squad SaromanOkrs = new Squad() { SquadName = "SaromanOkrs" };
-            SaromanOkrs.SquadFighters = new List<Fighter>();
-            SaromanOkrs.FighterNames = names;
-            SaromanOkrs.AddFighters();
+            Squad HighElves = GetSquad("HighElves", names);
+            Squad WoodElves = GetSquad("WoodElf", names);
+            Squad MountainOrks = GetSquad("MountainOrks", names);
+            Squad SaromanOrks = GetSquad("SaromanOrks", names);
 
             Fraction Elves = new Fraction() { FractionName = "Elves" };
             Elves.FractionSquads = new List<Squad>();
@@ -38,10 +22,18 @@ namespace Day5or6_The_GAME
             Fraction Orks = new Fraction() { FractionName = "Orks" };
             Orks.FractionSquads = new List<Squad>();
             Orks.FractionSquads.Add(MountainOrks);
-            Orks.FractionSquads.Add(SaromanOkrs);
+            Orks.FractionSquads.Add(SaromanOrks);
 
             Elves.GetInfo();
             Orks.GetInfo();
         }
-     }
+        public static Squad GetSquad(string name, List<string> names)
+        {
+            Squad squad = new Squad() { SquadName = name };
+            squad.SquadFighters = new List<Fighter>();
+            squad.FighterNames = names;
+            squad.AddFighters();
+            return squad;
+        }
+    }
 }
