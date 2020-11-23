@@ -18,6 +18,5 @@ namespace Day5or6_The_GAME
             battle.JustDoSomething();
 
         }
-
     }
 }
