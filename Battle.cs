@@ -22,11 +22,12 @@ namespace Day5or6_The_GAME
             Orks.FractionSquads.Add(MountainOrks);
             Orks.FractionSquads.Add(SaromanOrks);
 
-            Elves.GetInfo();
-            Orks.GetInfo();
+            //Elves.GetInfo();
+            //Orks.GetInfo();
 
-            //PvP(Elves, Orks);
-            SquadVsSquad(Elves, Orks);
+            PvP(Elves, Orks);
+            //SquadVsSquad(Elves, Orks);
+            //FractionVsFraction(Elves, Orks);
 
 
         }
@@ -65,10 +66,10 @@ namespace Day5or6_The_GAME
 
             while (fighter2.Health > 0 && fighter1.Health > 0)
             {
-                int damage1 = random.Next(fighter1.Attack) + 1 + fighter1.Strength;
+                int damage1 = Damage(fighter1);
                 fighter2.Health = fighter2.Health - damage1;
                 Console.WriteLine($"Боец {fighter2.Name}\t получил урон {damage1} единиц от {fighter1.Name},\t здоровья осталось: {fighter2.Health} Hp");
-                int damage2 = random.Next(fighter2.Attack) + 1 + fighter2.Strength;
+                int damage2 = Damage(fighter2);
                 fighter1.Health = fighter1.Health - damage2;
                 Console.WriteLine($"Боец {fighter1.Name}\t получил урон {damage2} единиц от {fighter2.Name},\t здоровья осталось: {fighter1.Health} Hp");
             }
@@ -124,9 +125,9 @@ namespace Day5or6_The_GAME
                     {
                         squad2.SquadFighters.RemoveAt(i);
                         i--;
-                    }                    
+                    }
                 }
-                if (squad1.SquadFighters.Count !=0 && squad2.SquadFighters.Count !=0)
+                if (squad1.SquadFighters.Count != 0 && squad2.SquadFighters.Count != 0)
                 {
                     Console.WriteLine($"\nРаунд {round}\n");
                     squad1.GetInfo();
@@ -134,12 +135,237 @@ namespace Day5or6_The_GAME
                     squad2.GetInfo();
                     round++;
                 }
-                fightercount = squad1.SquadFighters.Count <= squad2.SquadFighters.Count ? squad1.SquadFighters.Count : squad2.SquadFighters.Count; 
+                fightercount = squad1.SquadFighters.Count <= squad2.SquadFighters.Count ? squad1.SquadFighters.Count : squad2.SquadFighters.Count;
             }
             Squad Winner = squad1.SquadFighters.Count > squad2.SquadFighters.Count ? squad1 : squad2;
             Console.WriteLine($"\nПобедитель в {round} раунде:{Winner.SquadName}");
             Winner.GetInfo();
             Console.ReadKey();
+        }
+        public void FractionVsFraction(Fraction fraction1, Fraction fraction2)
+        {
+            Console.WriteLine("Нажми кнопку для начала битвы фракций");
+            Console.ReadKey();
+            Console.WriteLine(" ");
+            int round = 1;
+            int fightercount = 10;
+            int squadcount = fraction1.FractionSquads.Count;
+
+            while (squadcount > 0) //бой между фракциями
+            {
+
+                Squad squad1 = fraction1.FractionSquads[0];
+                Console.WriteLine("инфа перед боем");
+                squad1.GetInfo();
+                Squad squad2 = fraction2.FractionSquads[0];
+                squad2.GetInfo();
+                fightercount = squad1.SquadFighters.Count <= squad2.SquadFighters.Count ? squad1.SquadFighters.Count : squad2.SquadFighters.Count;
+                while (fightercount > 0) //бой отряда на отряд
+                {
+                    for (int i = 0; i < fightercount; i++) //бой Пвп
+                    {
+                        while (squad1.SquadFighters[i].Health > 0 && squad2.SquadFighters[i].Health > 0)
+                        {
+                            Random random = new Random();
+                            int damage1 = random.Next(squad1.SquadFighters[i].Attack) + 1 + squad1.SquadFighters[i].Strength;
+                            squad2.SquadFighters[i].Health = squad2.SquadFighters[i].Health - damage1;
+                            //Console.WriteLine($"Боец {squad2.SquadFighters[i].Name}\t получил урон {damage1} единиц от {squad1.SquadFighters[i].Name},\t здоровья осталось: {squad2.SquadFighters[i].Health} Hp");
+                            int damage2 = random.Next(squad2.SquadFighters[i].Attack) + 1 + squad2.SquadFighters[i].Strength;
+                            squad1.SquadFighters[i].Health = squad1.SquadFighters[i].Health - damage2;
+                            //Console.WriteLine($"Боец {squad1.SquadFighters[i].Name}\t получил урон {damage2} единиц от {squad2.SquadFighters[i].Name},\t здоровья осталось: {squad1.SquadFighters[i].Health} Hp");
+                        }
+                    }
+                    for (int i = 0; i < squad1.SquadFighters.Count; i++) //вынос мертвецов 1 отряда
+                    {
+                        if (squad1.SquadFighters[i].Health <= 0)
+                        {
+                            squad1.SquadFighters.RemoveAt(i);
+                            i--; //вообще выглядит как костыль
+                        }
+                    }
+                    for (int i = 0; i < squad2.SquadFighters.Count; i++) //вынос мертвецов 2 отряда
+                    {
+                        if (squad2.SquadFighters[i].Health <= 0)
+                        {
+                            squad2.SquadFighters.RemoveAt(i);
+                            i--;
+                        }
+                    }
+                    if (squad1.SquadFighters.Count != 0 && squad2.SquadFighters.Count != 0)
+                    {
+                        Console.WriteLine($"\nРаунд {round}\n");
+                        squad1.GetInfo();
+                        Console.WriteLine();
+                        squad2.GetInfo();
+                        Console.WriteLine();
+                    }
+                    Squad SquadWinner;
+                    if (fraction1.FractionSquads[0].SquadFighters.Count == 0 && fraction2.FractionSquads[0].SquadFighters.Count == 0)
+                    {
+                        Console.WriteLine("Ничья, оба отряда уничтожены");
+                        fraction1.FractionSquads.RemoveAt(0);
+                        fraction2.FractionSquads.RemoveAt(0);
+                    }
+                    else
+                    {
+                        if (fraction1.FractionSquads[0].SquadFighters.Count == 0)
+                        {
+                            fraction1.FractionSquads.RemoveAt(0);
+                            SquadWinner = fraction2.FractionSquads[0];
+                            Console.WriteLine($"В сражении отрядов победил {SquadWinner.SquadName} в {round} раунде");
+                        }
+                        if (fraction2.FractionSquads[0].SquadFighters.Count == 0)
+                        {
+                            fraction2.FractionSquads.RemoveAt(0);
+                            SquadWinner = fraction1.FractionSquads[0];
+                            Console.WriteLine($"В сражении отрядов победил {SquadWinner.SquadName} в {round} раунде");
+                        }
+                    }
+                    round++;
+                    Console.ReadKey();
+                    fightercount = squad1.SquadFighters.Count <= squad2.SquadFighters.Count ? squad1.SquadFighters.Count : squad2.SquadFighters.Count;
+                }
+                squadcount = fraction1.FractionSquads.Count <= fraction2.FractionSquads.Count ? fraction1.FractionSquads.Count : fraction2.FractionSquads.Count;
+            }
+            Fraction Winner = fraction1.FractionSquads.Count > fraction2.FractionSquads.Count ? fraction1 : fraction2;
+            Console.WriteLine($"\nПобедитель в {round} раунде:{Winner.FractionName}");
+            Winner.GetInfo();
+            Console.ReadKey();
+        }
+        public void AttackNAbility(Fighter.Ability ability, Fighter enemy, Fighter personage, Squad enemySquad, Squad mySquad, int round)
+        {
+            int damage;
+            Random random = new Random();
+            switch (ability)
+            {
+                case Fighter.Ability.Berserk:
+                    damage = Damage(personage);
+                    enemy.Health -= damage;
+                    if (personage.Health <= 10)
+                    {
+                        int berserkDamage = Damage(personage);
+                        enemySquad.SquadFighters[random.Next(enemySquad.SquadFighters.Count)].Health -= berserkDamage;
+                    }
+                    break;
+
+                case Fighter.Ability.Priest:
+                    damage = Damage(personage);
+                    enemy.Health -=  damage;
+                    int indexHeal = 0;
+                    int roundCount = 1;
+                    if (roundCount <= round)
+                    {
+                        for (int i = 0; i < mySquad.SquadFighters.Count; i++)
+                        {
+                            if (mySquad.SquadFighters[indexHeal].Health > 0)
+                            {
+                                if (mySquad.SquadFighters[indexHeal].Health > mySquad.SquadFighters[i++].Health && mySquad.SquadFighters[i++].Health > 0)
+                                {
+                                    indexHeal = i++;
+                                }
+                            }
+                            else
+                            {
+                                indexHeal = i++;
+                            }
+                        }
+                        if (mySquad.SquadFighters[indexHeal].Health < 20)
+                        {
+                            roundCount = round + 3;
+                            mySquad.SquadFighters[indexHeal].Health += damage;
+                        }
+                    }
+                    break;
+
+                case Fighter.Ability.Mage:
+                    damage = Damage(personage);
+                    int indexAttck = 0;
+                    int fireballCooldown = 1;
+                    if (fireballCooldown <= round)
+                    {
+                        for (int i = 0; i < enemySquad.SquadFighters.Count; i++) //проверка на мин ХП и его живость
+                        {
+                            if (enemySquad.SquadFighters[indexAttck].Health > 0)
+                            {
+                                if (enemySquad.SquadFighters[indexAttck].Health > enemySquad.SquadFighters[i++].Health && enemySquad.SquadFighters[i++].Health > 0)
+                                {
+                                    indexAttck = i++;
+                                }
+                            }
+                            else
+                            {
+                                indexAttck = i++;
+                            }
+                        }
+                        fireballCooldown = round + 3;
+                        // если осталось меньше 3х - то по всем оставшимся - а это мы сделаем потом))
+                        enemySquad.SquadFighters[indexAttck].Health -= damage;
+                        for (int x = indexAttck - 1; x >= -1; x--) //проверка соседа снизу и атака
+                        {
+                            if (enemySquad.SquadFighters[x].Health > 0 && x >=0)
+                            {
+                                enemySquad.SquadFighters[x].Health -= damage;
+                                break;
+                            }
+                            else if (x == -1)
+                            {
+                                x = enemySquad.SquadFighters.Count;
+                            }
+                        }
+
+                        for (int x = indexAttck + 1; x <= enemySquad.SquadFighters.Count; x++) //проверка соседа сверху и атака
+                        {
+                            if (enemySquad.SquadFighters[x].Health > 0 && x < enemySquad.SquadFighters.Count)
+                            {
+                                enemySquad.SquadFighters[x].Health -= damage;
+                                break;
+                            }
+                            else if (x == enemySquad.SquadFighters.Count)
+                            {
+                                x = 0;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        for (int i = 0; i < enemySquad.SquadFighters.Count; i++)
+                        {
+                            if (enemySquad.SquadFighters[indexAttck].Health > 0)
+                            {
+                                if (enemySquad.SquadFighters[indexAttck].Health > enemySquad.SquadFighters[i++].Health && enemySquad.SquadFighters[i++].Health > 0)
+                                {
+                                    indexAttck = i++;
+                                }
+                            }
+                            else
+                            {
+                                indexAttck = i++;
+                            }
+                        }
+                        if (enemySquad.SquadFighters[indexAttck].Health > 0)
+                        {
+                            enemySquad.SquadFighters[indexAttck].Health -= damage;
+                        }
+                    }
+                    break;
+
+                case Fighter.Ability.Warior: //тут у нас затуп
+                    damage = Damage(personage);
+                    enemy.Health -= damage;
+                    break;
+
+                default:
+                    damage = Damage(personage);
+                    enemy.Health -= damage;
+                    break;
+            }
+            
+        }
+        public int Damage(Fighter fighter)
+        {
+            Random random = new Random();
+            int damage = random.Next(fighter.Attack) + 1 + fighter.Strength;
+            return damage;
         }
     }
 }

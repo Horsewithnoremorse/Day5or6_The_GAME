@@ -12,6 +12,13 @@ namespace Day5or6_The_GAME
         public int Health;
         public int Attack;
         public int Strength;
+        public enum Ability
+        {
+            Berserk,
+            Priest,
+            Mage,
+            Warior
+        }
         Random random = new Random();
         public Fighter(string n) 
         { 
