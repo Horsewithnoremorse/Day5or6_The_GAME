@@ -16,30 +16,44 @@ namespace Day5or6_The_GAME
         public List<string> FighterNames { get; set; }
         public string SquadName { get; set; }
         public List<Fighter> SquadFighters { get; set; }
-        public void AddFighters(int squadSize)
+        public void AddFighters(int squadSize, int heroNumbers)
         {
             SquadFighters = new List<Fighter>();
             Random rand = new Random();
+            if (squadSize < heroNumbers) { heroNumbers = squadSize; }
+
             for (int i = 0; i < squadSize; i++)
             {
-                int index = rand.Next(FighterNames.Count);
-                SquadFighters.Add(new Fighter(FighterNames[index]));
+                SquadFighters.Add(new Fighter(FighterNames[rand.Next(FighterNames.Count)]));
             }
-            int a = rand.Next(FighterNames.Count);
-            int b = rand.Next(FighterNames.Count);
-            int c = rand.Next(FighterNames.Count);
-            int d = rand.Next(FighterNames.Count);
-            while (a == b && b == c && c == d && a == c && a == d && b == d)
+
+            List<int> indexList = new List<int>();
+            indexList.Add(rand.Next(FighterNames.Count));
+            int index;
+            for (int j = 0; j < heroNumbers && indexList.Count < heroNumbers; j++)
             {
-                a = rand.Next(FighterNames.Count);
-                b = rand.Next(FighterNames.Count);
-                c = rand.Next(FighterNames.Count);
-                d = rand.Next(FighterNames.Count);
+                index = rand.Next(FighterNames.Count);
+                for (int i = 0; i < indexList.Count; i++)
+                {
+
+                    if (index == indexList[i])
+                    {
+                        Random rand1 = new Random();
+                        index = rand1.Next(FighterNames.Count);
+                        i = 0;
+                    }
+                }
+                indexList.Add(index);
             }
-            SquadFighters[a].Ability = Abilities[0];
-            SquadFighters[b].Ability = Abilities[1];
-            SquadFighters[c].Ability = Abilities[2];
-            SquadFighters[d].Ability = Abilities[3];
+            for (int i = 0; i < indexList.Count; i++) 
+            {
+                int j = i;
+                while (j >= Abilities.Count)
+                {
+                    j -= Abilities.Count;
+                }
+                SquadFighters[indexList[i]].Ability = Abilities[j];
+            }
 
         }
         public void GetInfo()

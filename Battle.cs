@@ -9,10 +9,10 @@ namespace Day5or6_The_GAME
         public List<string> names;
         public void JustDoSomething()
         {
-            Squad HighElves = GetSquad("HighElves", names, 10);
-            Squad WoodElves = GetSquad("WoodElf", names, 10);
-            Squad MountainOrks = GetSquad("MountainOrks", names, 11);
-            Squad SaromanOrks = GetSquad("SaromanOrks", names, 11);
+            Squad HighElves = GetSquad("HighElves", names, 10, 5);
+            Squad WoodElves = GetSquad("WoodElf", names, 10, 5);
+            Squad MountainOrks = GetSquad("MountainOrks", names, 11, 4);
+            Squad SaromanOrks = GetSquad("SaromanOrks", names, 11, 4);
 
             Fraction Elves = GetFraction("Elves");
             Elves.FractionSquads.Add(HighElves);
@@ -31,12 +31,12 @@ namespace Day5or6_The_GAME
 
 
         }
-        public static Squad GetSquad(string name, List<string> names, int numberFighters)
+        public static Squad GetSquad(string name, List<string> names, int numberFighters, int numberHero)
         {
             Squad squad = new Squad() { SquadName = name };
             squad.SquadFighters = new List<Fighter>();
             squad.FighterNames = names;
-            squad.AddFighters(numberFighters);
+            squad.AddFighters(numberFighters, numberHero);
             return squad;
         }
         public static Fraction GetFraction(string name)
